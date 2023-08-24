@@ -1,12 +1,31 @@
 #containerSearch {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   align-items: center;
-  width: 14rem;
+  width: 20rem;
   border: 1px solid #d6d6d6;
   padding: 0.4rem 1rem;
+  border-radius: 12px;
+  background: #FFF;
+  box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.05);
 }
 
 #containerSearch input {
   border: none;
+  width: 100%;
+  padding: 0.3rem;
+  font-size: 1.2rem;
+  color: #757272;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+input::placeholder {
+  color: #C4C4C4;
+}
+
+input:focus {
+  box-shadow: 0 0 0 0;
+  outline: 0;
 }
