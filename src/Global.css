@@ -1,0 +1,15 @@
+:root {
+  --primary-color: #00629B;
+  --secondy-color: #FFFFFF;
+  --button-action-color: #FF8200;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.screem {
+  background-color: var(--secondy-color);
+}

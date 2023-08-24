@@ -1,0 +1,29 @@
+header {
+  width: 100vw;
+  background-color: var(--primary-color);
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  padding: 2.5rem 8rem;
+}
+
+button {
+  height: 2.5rem;
+  width: 16rem;
+  padding: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  border: 1px solid var(--secondy-color);
+  border-radius: 12px;
+  background-color: var(--primary-color);
+  color: var(--secondy-color);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.clinical-request__button {
+  margin-right: 2.5rem;
+}
