@@ -1,6 +1,9 @@
 :root {
   --primary-color: #00629B;
-  --secondy-color: #FFFFFF;
+  --primary-table-color: #FFFFFF;
+  --secondy-table-color: #E7F4F9;
+  --secondy-color: #EFEFEF;
+  --color-white: #FFFFFF;
   --button-action-color: #FF8200;
 }
 
@@ -8,8 +11,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Proxima nova', sans-serif;
 }
 
 .screem {
   background-color: var(--secondy-color);
+  height: 100vh;
 }
