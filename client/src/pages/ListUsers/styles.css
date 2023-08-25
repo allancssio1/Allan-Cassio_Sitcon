@@ -29,3 +29,51 @@ input:focus {
   box-shadow: 0 0 0 0;
   outline: 0;
 }
+
+.tableUsers {
+  margin-top: 1.5rem;
+}
+
+.contentTable {
+  font-size: 1rem;
+}
+
+.itemsTable {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  height: 3rem;
+}
+
+.itemTable {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerTable {
+  background-color: var(--primary-color);
+  border-radius: 12px 12px 0 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.colorOne {
+  background-color: var(--primary-table-color);
+
+}
+
+.colorTwo {
+  background-color: var(--secondy-table-color);
+}
+
+.buttonAction {
+  background-color: var(--button-action-color);
+  width: 8rem;
+  height: 2.4rem;
+  flex-shrink: 0;
+  border-radius: 12px;
+  font-weight: normal;
+  box-shadow: 2px 2px 5px 0px var(--button-action-color);
+}
