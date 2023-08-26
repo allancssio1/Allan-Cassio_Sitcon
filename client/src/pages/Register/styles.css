@@ -1,0 +1,70 @@
+.buttonBack {
+  width: 6rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: flex-start;
+  line-height: 24px;
+  margin-top: 10px;
+  font-family: 'Proxima nova', sans-serif;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.rowForm {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.m-r {
+  margin-right: 1rem;
+}
+
+.item {
+  width: 100%;
+  margin: 0.5rem auto;
+}
+
+.item input,
+select {
+  width: 100%;
+  height: 2.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-white);
+  margin-top: 5px;
+  padding: 4px 16px;
+  color: #333;
+}
+
+input:focus {
+  box-shadow: 0 0 0 0;
+  outline: 0;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: var(--color-white);
+  background-position: 100% center;
+}
+
+.inportant {
+  font-size: 7px;
+  margin-bottom: 8px;
+}
+
+.buttonConfirm {
+  align-self: flex-end;
+  width: 6rem;
+  margin-top: 1rem;
+}
