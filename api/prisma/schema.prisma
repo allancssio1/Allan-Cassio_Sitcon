@@ -9,3 +9,55 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Patiente {
+  id        String   @id @default(uuid())
+  name      String
+  birthDate DateTime
+  cpf       String
+  status    Boolean
+
+  @@map("patients")
+}
+
+model Professional {
+  id        String      @id @default(uuid())
+  name      String
+  status    Boolean
+  Attendant Attendant[]
+
+  @@map("professionals")
+}
+
+model RequestType {
+  id          String      @id @default(uuid())
+  description String
+  status      Boolean
+  Procedure   Procedure[]
+
+  @@map("requestTypes")
+}
+
+model Procedure {
+  id          String  @id @default(uuid())
+  description String?
+  status      Boolean
+
+  type_id       RequestType @relation(fields: [requestTypeId], references: [id])
+  requestTypeId String
+  Attendant     Attendant[]
+
+  @@map("procedures")
+}
+
+model Attendant {
+  id String @id @default(uuid())
+
+  procedure_id Procedure @relation(fields: [procedureId], references: [id])
+  procedureId  String
+
+  professional_id Professional @relation(fields: [professionalId], references: [id])
+  professionalId  String
+
+  @@map("attendants")
+}
