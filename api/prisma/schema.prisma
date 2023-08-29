@@ -25,6 +25,7 @@ model Professional {
   name      String
   status    Boolean
   Attendant Attendant[]
+  Request   Request[]
 
   @@map("professionals")
 }
@@ -34,6 +35,7 @@ model RequestType {
   description String
   status      Boolean
   Procedure   Procedure[]
+  Request     Request[]
 
   @@map("requestTypes")
 }
@@ -46,6 +48,7 @@ model Procedure {
   type_id       RequestType @relation(fields: [requestTypeId], references: [id])
   requestTypeId Int
   Attendant     Attendant[]
+  Request       Request[]
 
   @@map("procedures")
 }
@@ -60,4 +63,21 @@ model Attendant {
   professionalId  Int
 
   @@map("attendants")
+}
+
+model Request {
+  id   Int    @id @default(autoincrement())
+  date String
+  hour String
+
+  professional_id Professional @relation(fields: [professionalId], references: [id])
+  professionalId  Int
+
+  requestType_id RequestType @relation(fields: [requestTypeId], references: [id])
+  requestTypeId  Int
+
+  procedure_id Procedure @relation(fields: [procedureId], references: [id])
+  procedureId  Int
+
+  @@map("requests")
 }
