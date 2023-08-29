@@ -11,11 +11,12 @@ datasource db {
 }
 
 model Patiente {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
   birthDate DateTime
   cpf       String
   status    Boolean
+  Request   Request[]
 
   @@map("patients")
 }
@@ -78,6 +79,9 @@ model Request {
 
   procedure_id Procedure @relation(fields: [procedureId], references: [id])
   procedureId  Int
+
+  patiente_id Patiente @relation(fields: [patienteId], references: [id])
+  patienteId  Int
 
   @@map("requests")
 }
