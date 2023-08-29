@@ -1,18 +1,27 @@
+import { DataRequest } from '../interfaces/RegisterRequest'
 import { PatienteRepository } from '../repositories/patientesRepository'
-
-interface DataRequet {
-  professionalId: string
-  requestTypeId: string
-  proceduresId: string
-  date: string
-  hour: string
-  patienteId: string
-}
 
 export class RegisterRequest {
   constructor(private patientesRepository: PatienteRepository) {}
-  async execute({}: DataRequet) {
-    const patientes = this.patientesRepository.findMany()
+  async execute({
+    date,
+    hour,
+    patienteId,
+    procedureId,
+    professionalId,
+    requestTypeId,
+    id,
+  }: DataRequest) {
+    const patientes = this.patientesRepository.register({
+      date,
+      hour,
+      patienteId,
+      procedureId,
+      professionalId,
+      requestTypeId,
+      id,
+    })
+
     return patientes ?? []
   }
 }

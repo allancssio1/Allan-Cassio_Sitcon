@@ -6,6 +6,8 @@ export async function registerRequest(request: Request, response: Response) {
   const { professional, requestType, procedures, date, hour } = request.body
   const { patienteId } = request.params
 
+  console.log(professional, requestType, procedures, date, hour, patienteId)
+
   if (
     !professional ||
     professional === '' ||
@@ -26,8 +28,8 @@ export async function registerRequest(request: Request, response: Response) {
     })
   }
 
-  const repository = new PrismaPatientesRepository()
-  const patientesUseCase = new FindPatienteById(repository)
+  // const repository = new PrismaPatientesRepository()
+  // const patientesUseCase = new FindPatienteById(repository)
 
   // const patiente = await patientesUseCase.execute(patienteId)
 
