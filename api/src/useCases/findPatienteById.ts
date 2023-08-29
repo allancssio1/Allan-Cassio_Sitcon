@@ -1,5 +1,5 @@
 import { Patiente } from '@prisma/client'
-import { PatienteRepository } from '../repositories/patientessRepository'
+import { PatienteRepository } from '../repositories/patientesRepository'
 
 export class FindPatienteById {
   constructor(private patienteRepository: PatienteRepository) {}
