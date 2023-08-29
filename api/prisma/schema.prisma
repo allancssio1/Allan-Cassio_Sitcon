@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Patiente {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   name      String
   birthDate DateTime
   cpf       String
@@ -21,7 +21,7 @@ model Patiente {
 }
 
 model Professional {
-  id        String      @id @default(uuid())
+  id        Int         @id @default(autoincrement())
   name      String
   status    Boolean
   Attendant Attendant[]
@@ -30,7 +30,7 @@ model Professional {
 }
 
 model RequestType {
-  id          String      @id @default(uuid())
+  id          Int         @id @default(autoincrement())
   description String
   status      Boolean
   Procedure   Procedure[]
@@ -39,25 +39,25 @@ model RequestType {
 }
 
 model Procedure {
-  id          String  @id @default(uuid())
+  id          Int     @id @default(autoincrement())
   description String?
   status      Boolean
 
   type_id       RequestType @relation(fields: [requestTypeId], references: [id])
-  requestTypeId String
+  requestTypeId Int
   Attendant     Attendant[]
 
   @@map("procedures")
 }
 
 model Attendant {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
 
   procedure_id Procedure @relation(fields: [procedureId], references: [id])
-  procedureId  String
+  procedureId  Int
 
   professional_id Professional @relation(fields: [professionalId], references: [id])
-  professionalId  String
+  professionalId  Int
 
   @@map("attendants")
 }
