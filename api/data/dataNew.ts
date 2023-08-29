@@ -110,7 +110,7 @@ const tipoSolicitacao = [
     status: 'ativo',
   },
   {
-    id: 1,
+    id: 2,
     descricao: 'Exames Laboratoriais',
     status: 'ativo',
   },
@@ -148,7 +148,7 @@ const procedimentos = [
     status: 'ativo',
   },
   {
-    id: 5,
+    id: 6,
     descricao: 'Triglicerídeos',
     tipo_id: 2,
     status: 'ativo',
@@ -205,3 +205,11 @@ const profissionalAtende = [
     status: 'ativo',
   },
 ]
+
+export {
+  pacientes,
+  procedimentos,
+  profissional,
+  profissionalAtende,
+  tipoSolicitacao,
+}
