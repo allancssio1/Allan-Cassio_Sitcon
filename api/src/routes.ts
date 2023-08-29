@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { listPatientes } from './controllers/listPatientes'
-import { findPatienteById } from './controllers/findPatienteById'
+import { findPatienteById } from './controllers/findPatiente'
 import { registerRequest } from './controllers/registerRequest'
 
 export const routes = Router()

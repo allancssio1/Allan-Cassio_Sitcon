@@ -1,11 +1,12 @@
 import express from 'express'
 import { routes } from './routes'
-import { uploadFileData } from '../uploadData'
+import { updateDB } from '../script'
 
 const app = express()
 
-uploadFileData()
+// updateDB()
 
+app.use(express.json())
 app.use(routes)
 
 app.listen(3333, () => {
