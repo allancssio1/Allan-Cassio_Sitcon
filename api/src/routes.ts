@@ -1,7 +1,10 @@
-import { Request, Response, Router } from 'express'
+import { Router } from 'express'
+import { listPatientes } from './controllers/listPatientes'
+import { findPatienteById } from './controllers/findPatienteById'
+import { registerRequest } from './controllers/registerRequest'
 
 export const routes = Router()
 
-routes.get('/', async (req: Request, res: Response) => {
-  return res.send('deu')
-})
+routes.get('/', listPatientes)
+routes.get('/:patientId', findPatienteById)
+routes.post('/:patientId', registerRequest)
