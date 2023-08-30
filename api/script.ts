@@ -13,8 +13,10 @@ export async function updateDB() {
       await prismaClient.patiente.create({
         data: {
           id: item.id,
-          birthDate: new Date(item.dataNasc),
-          cpf: item.CPF,
+          birthDate: new Date(
+            new Date(item.dataNasc).getTime() + 3 * 60 * 60 * 1000,
+          ).toISOString(),
+          cpf: item.CPF.replace(/\D/g, ''),
           name: item.nome,
           status: item.status === 'ativo',
         },

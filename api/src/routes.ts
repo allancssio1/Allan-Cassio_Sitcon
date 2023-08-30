@@ -6,5 +6,5 @@ import { registerRequest } from './controllers/registerRequest'
 export const routes = Router()
 
 routes.get('/', listPatientes)
-routes.get('/:patientId', findPatienteById)
-routes.post('/:patientId', registerRequest)
+routes.get('/:patienteId', findPatienteById)
+routes.post('/:patienteId', registerRequest)
