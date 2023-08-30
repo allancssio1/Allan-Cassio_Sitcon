@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import './styles.css'
 import { useForm } from 'react-hook-form'
 
@@ -19,29 +20,42 @@ export const FormUser = () => {
     formState: { errors },
   } = useForm<IFormData>()
 
-  const onSubmit = () => {}
+  useEffect(() => {
+    const getDataPatiente = async () => {}
+
+    getDataPatiente()
+  })
+
+  const submit = (data: IFormData) => {
+    console.log(data)
+  }
 
   return (
     <section>
       <button className="buttonForm buttonBack">voltar</button>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(submit)}>
         <div className="rowForm">
           <div className="item">
             <label htmlFor="name">Nome do paciente</label>
             <div className="containerInput m-r">
-              <input type="text" id="name" {...register('name')} />
+              <input type="text" id="name" disabled {...register('name')} />
             </div>
           </div>
           <div className="item">
             <label htmlFor="birthDate">Data de nascimento</label>
             <div className="containerInput m-r">
-              <input type="text" id="birthDate" {...register('birthDate')} />
+              <input
+                type="text"
+                id="birthDate"
+                disabled
+                {...register('birthDate')}
+              />
             </div>
           </div>
           <div className="item">
             <label htmlFor="cpf">CPF</label>
             <div className="containerInput">
-              <input type="text" id="cpf" {...register('cpf')} />
+              <input type="text" id="cpf" disabled {...register('cpf')} />
             </div>
           </div>
         </div>
@@ -63,9 +77,7 @@ export const FormUser = () => {
                 id="professional"
                 {...register('professional', {
                   required: true,
-                  onChange: (e) => {
-                    console.log(e.target.value)
-                  },
+                  onChange: (e) => {},
                 })}
               >
                 <option value="">Selecione</option>
