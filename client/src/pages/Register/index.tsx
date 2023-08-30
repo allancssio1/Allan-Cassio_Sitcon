@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import './styles.css'
 import { useForm } from 'react-hook-form'
+import axios from 'axios'
+import { api } from '../../server/api'
 
 interface IFormData {
   name: string
@@ -21,14 +23,16 @@ export const FormUser = () => {
   } = useForm<IFormData>()
 
   useEffect(() => {
-    const getDataPatiente = async () => {}
+    const getDataPatiente = async () => {
+      const patienteData = await api.get('/1').then((res) => {
+        console.log(res)
+      })
+    }
 
     getDataPatiente()
   })
 
-  const submit = (data: IFormData) => {
-    console.log(data)
-  }
+  const submit = (data: IFormData) => {}
 
   return (
     <section>
