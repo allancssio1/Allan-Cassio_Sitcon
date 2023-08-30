@@ -1,21 +1,15 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import './styles.css'
 import { useForm } from 'react-hook-form'
-import axios from 'axios'
 import { api } from '../../server/api'
-
-interface IFormData {
-  name: string
-  birthDate: string
-  cpf: string
-  professional: string
-  requestType: string
-  procedures: string
-  date: string
-  hour: string
-}
+import { IFormData, Patiente } from './interfaces'
+import dayjs from 'dayjs'
+import moment from 'moment-timezone'
+import { maskCPF } from '../../utils/maskCPF'
 
 export const FormUser = () => {
+  const [patiente, setPatiente] = useState<Patiente>()
+
   const {
     register,
     handleSubmit,
@@ -23,14 +17,27 @@ export const FormUser = () => {
   } = useForm<IFormData>()
 
   useEffect(() => {
-    const getDataPatiente = async () => {
-      const patienteData = await api.get('/1').then((res) => {
-        console.log(res)
-      })
-    }
-
     getDataPatiente()
-  })
+    getProfessionalList()
+    getRequestTypeList()
+    getProcedures()
+  }, [])
+
+  const getDataPatiente = async () => {
+    const { data } = await api.get('/1')
+    const { patiente } = data
+
+    const date = new Intl.DateTimeFormat('pt-br').format(
+      new Date(patiente.birthDate),
+    )
+    console.log('date:', date)
+
+    setPatiente({ ...patiente, birthDate: date, cpf: maskCPF(patiente.cpf) })
+  }
+
+  const getProfessionalList = async () => {}
+  const getRequestTypeList = async () => {}
+  const getProcedures = async () => {}
 
   const submit = (data: IFormData) => {}
 
@@ -42,13 +49,20 @@ export const FormUser = () => {
           <div className="item">
             <label htmlFor="name">Nome do paciente</label>
             <div className="containerInput m-r">
-              <input type="text" id="name" disabled {...register('name')} />
+              <input
+                value={patiente?.name}
+                type="text"
+                id="name"
+                disabled
+                {...register('name')}
+              />
             </div>
           </div>
           <div className="item">
             <label htmlFor="birthDate">Data de nascimento</label>
             <div className="containerInput m-r">
               <input
+                value={patiente?.birthDate}
                 type="text"
                 id="birthDate"
                 disabled
@@ -59,7 +73,13 @@ export const FormUser = () => {
           <div className="item">
             <label htmlFor="cpf">CPF</label>
             <div className="containerInput">
-              <input type="text" id="cpf" disabled {...register('cpf')} />
+              <input
+                value={patiente?.cpf}
+                type="text"
+                id="cpf"
+                disabled
+                {...register('cpf')}
+              />
             </div>
           </div>
         </div>
