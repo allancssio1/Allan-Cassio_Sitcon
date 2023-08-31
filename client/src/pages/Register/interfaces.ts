@@ -4,10 +4,23 @@ export interface Patiente {
   cpf: string
 }
 
+export interface Procedure {
+  id: number
+  description: string
+  status: boolean
+  requestTypeId: number
+}
+
 export interface Prefessional {
   id: number
   name: string
   status: boolean
+  procedures: {
+    id: number
+    description: string
+    status: boolean
+    requestTypeId: number
+  }[]
 }
 
 export interface IFormData {
