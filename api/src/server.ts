@@ -6,6 +6,7 @@ import { updateDB } from '../script'
 const app = express()
 
 // updateDB()
+
 app.use(
   cors({
     origin: 'http://localhost:5173',

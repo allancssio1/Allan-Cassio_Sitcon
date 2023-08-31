@@ -11,6 +11,12 @@ export interface Procedure {
   requestTypeId: number
 }
 
+export interface RequestType {
+  id: number
+  description: string
+  status: boolean
+}
+
 export interface Prefessional {
   id: number
   name: string

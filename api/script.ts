@@ -8,76 +8,85 @@ import {
 import { prismaClient } from './prisma/prismaClient'
 
 export async function updateDB() {
-  await pacientes.forEach(async (item) => {
-    if (item) {
-      await prismaClient.patiente.create({
-        data: {
+  try {
+    await pacientes.forEach(async (item) => {
+      if (item) {
+        const data = {
           id: item.id,
           birthDate: new Date(
             new Date(item.dataNasc).getTime() + 3 * 60 * 60 * 1000,
           ).toISOString(),
           cpf: item.CPF.replace(/\D/g, ''),
           name: item.nome,
-          status: item.status === 'ativo',
-        },
-      })
-    }
+          status: item.status === 'ativo' ? true : false,
+        }
 
-    return
-  })
+        await prismaClient.patiente.create({
+          data,
+        })
+      }
 
-  await profissional.forEach(async (item) => {
-    if (item) {
-      await prismaClient.professional.create({
-        data: {
-          name: item.nome,
+      return
+    })
+
+    await profissional.forEach(async (item) => {
+      if (item) {
+        const data = {
           id: item.id,
-          status: item.status === 'ativo',
-        },
-      })
-    }
-    return
-  })
+          name: item.nome,
+          status: item.status === 'ativo' ? true : false,
+        }
+        await prismaClient.professional.create({
+          data,
+        })
+      }
+      return
+    })
 
-  await tipoSolicitacao.forEach(async (item) => {
-    if (item) {
-      await prismaClient.requestType.create({
-        data: {
+    await tipoSolicitacao.forEach(async (item) => {
+      if (item) {
+        const data = {
           id: item.id,
           description: item.descricao,
-          status: item.status === 'ativo',
-        },
-      })
-    }
-    return
-  })
+          status: item.status === 'ativo' ? true : false,
+        }
+        await prismaClient.requestType.create({
+          data,
+        })
+      }
+      return
+    })
 
-  await procedimentos.forEach(async (item) => {
-    if (item) {
-      await prismaClient.procedure.create({
-        data: {
+    await procedimentos.forEach(async (item) => {
+      if (item) {
+        const data = {
           id: item.id,
           description: item.descricao,
           requestTypeId: item.tipo_id,
-          status: item.status === 'ativo',
-        },
-      })
-    }
-    return
-  })
+          status: item.status === 'ativo' ? true : false,
+        }
+        await prismaClient.procedure.create({
+          data,
+        })
+      }
+      return
+    })
 
-  await profissionalAtende.forEach(async (item) => {
-    if (item) {
-      await prismaClient.attendant.create({
-        data: {
-          procedureId: item.procedimento_id,
+    await profissionalAtende.forEach(async (item) => {
+      if (item) {
+        const data = {
           id: item.id,
+          procedureId: item.procedimento_id,
           professionalId: item.profissional_id,
-        },
-      })
-    }
-    return
-  })
-
+        }
+        await prismaClient.attendant.create({
+          data,
+        })
+      }
+      return
+    })
+  } catch (error) {
+    console.log(error)
+  }
   return
 }
