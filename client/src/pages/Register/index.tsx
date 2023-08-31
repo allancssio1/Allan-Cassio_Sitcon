@@ -1,5 +1,6 @@
 import './styles.css'
 import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { api } from '../../server/api'
 import {
@@ -12,6 +13,9 @@ import {
 import { maskCPF } from '../../utils/maskCPF'
 
 export const FormUser = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
+
   const [patiente, setPatiente] = useState<Patiente>()
   const [professionals, setProfessionals] = useState<Prefessional[]>()
   const [procedures, setProcedures] = useState<Procedure[]>()
@@ -36,7 +40,7 @@ export const FormUser = () => {
   }, [procedureSelected])
 
   const getDataPatiente = async () => {
-    const { data } = await api.get('/patiente/1')
+    const { data } = await api.get(`/patiente/${id}`)
     const { patiente } = data
 
     const date = new Intl.DateTimeFormat('pt-br').format(
@@ -64,12 +68,18 @@ export const FormUser = () => {
     }
   }
 
-  const submit = (data: IFormData) => {
-    data = {
-      ...data,
+  const submit = async (formData: IFormData) => {
+    formData = {
+      ...formData,
+      procedureId: Number(formData.procedureId),
+      professionalId: Number(formData.professionalId),
+      requestTypeId: Number(formData.requestTypeId),
       ...patiente,
     }
-    console.log(data)
+
+    const { data } = await api.post('/patiente/register', formData)
+
+    if (data && data.success) navigate('/')
   }
 
   return (
@@ -114,10 +124,11 @@ export const FormUser = () => {
             </div>
           </div>
         </div>
-        {(errors.procedures ||
+        {(errors.procedureId ||
           errors.hour ||
           errors.date ||
-          errors.professional) && (
+          errors.professionalId ||
+          errors.requestTypeId) && (
           <span>
             Atenção! Os Campos com * devem ser preechidos obrigatóriamente.
           </span>
@@ -130,7 +141,7 @@ export const FormUser = () => {
             <div className="containerInput">
               <select
                 id="professional"
-                {...register('professional', {
+                {...register('professionalId', {
                   required: true,
                   onChange: (e) => {
                     const professional = professionals?.find(
@@ -173,7 +184,7 @@ export const FormUser = () => {
             <div className="containerInput  m-r">
               <select
                 id="requestType"
-                {...register('requestType', {
+                {...register('requestTypeId', {
                   required: true,
                 })}
               >
@@ -185,7 +196,7 @@ export const FormUser = () => {
                   Selecione
                 </option>
                 {requestType && (
-                  <option value={requestType.id}>
+                  <option key={requestType.id} value={requestType.id}>
                     {requestType.description}
                   </option>
                 )}
@@ -199,7 +210,7 @@ export const FormUser = () => {
             <div className="containerInput">
               <select
                 id="procedures"
-                {...register('procedures', {
+                {...register('procedureId', {
                   required: true,
                   onChange: (e) => {
                     const procedure = procedures?.find(
@@ -220,7 +231,7 @@ export const FormUser = () => {
                   procedures?.length > 0 &&
                   procedures.map((procedure: Procedure) => {
                     return (
-                      <option value={procedure.id}>
+                      <option key={procedure.id} value={procedure.id}>
                         {procedure.description}
                       </option>
                     )

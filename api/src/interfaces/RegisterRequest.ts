@@ -1,10 +1,11 @@
 import { Request } from '@prisma/client'
 
-export interface DataRequest extends Request {
+export interface DataRequest {
   professionalId: number
   requestTypeId: number
   procedureId: number
+  patienteId: number
   date: string
   hour: string
-  patienteId: number
+  id?: number
 }

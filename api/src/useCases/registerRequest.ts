@@ -10,18 +10,16 @@ export class RegisterRequest {
     procedureId,
     professionalId,
     requestTypeId,
-    id,
   }: DataRequest) {
-    const patientes = this.patientesRepository.register({
-      date,
+    const requestSuccess = this.patientesRepository.register({
+      patienteId: Number(patienteId),
+      procedureId: Number(procedureId),
+      professionalId: Number(professionalId),
+      requestTypeId: Number(requestTypeId),
       hour,
-      patienteId,
-      procedureId,
-      professionalId,
-      requestTypeId,
-      id,
+      date,
     })
 
-    return patientes ?? []
+    return requestSuccess ?? {}
   }
 }
