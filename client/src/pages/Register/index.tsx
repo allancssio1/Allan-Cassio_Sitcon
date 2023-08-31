@@ -2,17 +2,19 @@ import './styles.css'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { api } from '../../server/api'
-import { IFormData, Patiente, Prefessional } from './interfaces'
+import { IFormData, Patiente, Prefessional, Procedure } from './interfaces'
 import { maskCPF } from '../../utils/maskCPF'
 
 export const FormUser = () => {
   const [patiente, setPatiente] = useState<Patiente>()
   const [professionals, setProfessionals] = useState<Prefessional[]>()
+  const [procedures, setProcedures] = useState<Procedure[]>()
+  const [professionalSelected, setProfessionalSelected] =
+    useState<Prefessional>()
 
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors },
   } = useForm<IFormData>()
 
@@ -112,9 +114,24 @@ export const FormUser = () => {
                 id="professional"
                 {...register('professional', {
                   required: true,
+                  onChange: (e) => {
+                    const professional = professionals?.find(
+                      (professional) =>
+                        professional.id === Number(e.target.value),
+                    )
+                    setProfessionalSelected(professional)
+                    setProcedures(professional?.procedures)
+                  },
                 })}
               >
-                <option value="" disabled>
+                <option
+                  value=""
+                  selected={
+                    !professionalSelected ||
+                    (professionalSelected && !professionalSelected.id)
+                  }
+                  disabled
+                >
                   Selecione
                 </option>
                 {professionals &&
@@ -162,12 +179,20 @@ export const FormUser = () => {
                   required: true,
                 })}
               >
-                <option value="">Selecione</option>
-                <option value="1">Opção 1</option>
-                <option value="1">Opção 2</option>
-                <option value="1">Opção 3</option>
-                <option value="1">Opção 4</option>
-                <option value="1">Opção 5</option>
+                <option value="" disabled selected>
+                  Selecione
+                </option>
+                {procedures &&
+                  procedures?.length > 0 &&
+                  procedures.map((procedure: Procedure) => {
+                    console.log(procedure)
+
+                    return (
+                      <option value={procedure.id}>
+                        {procedure.description}
+                      </option>
+                    )
+                  })}
               </select>
             </div>
           </div>
