@@ -1,8 +1,8 @@
-import { Patiente } from '@prisma/client'
+import { Patiente, Request } from '@prisma/client'
 import { DataRequest } from '../interfaces/RegisterRequest'
 
 export interface PatienteRepository {
   findMany(): Promise<Patiente[]>
-  findId(id: number): Promise<Patiente>
-  register(data: DataRequest): Promise<any>
+  findId(id: number): Promise<Patiente | null>
+  register(data: DataRequest): Promise<Request>
 }

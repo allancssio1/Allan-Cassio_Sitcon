@@ -3,8 +3,8 @@ import { PatienteRepository } from '../patientesRepository'
 import { DataRequest } from '../../interfaces/RegisterRequest'
 
 export class PrismaPatientesRepository implements PatienteRepository {
-  register(data: DataRequest): Promise<any> {
-    throw new Error('Method not implemented.')
+  async register(data: DataRequest) {
+    return await prismaClient.request.create({ data })
   }
   async findId(id: number) {
     return await prismaClient.patiente.findFirst({

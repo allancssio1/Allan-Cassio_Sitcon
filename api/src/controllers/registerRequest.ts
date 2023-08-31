@@ -1,37 +1,35 @@
 import { Request, Response } from 'express'
 import { PrismaPatientesRepository } from '../repositories/prisma/prismaPatientesRepository'
-import { FindPatienteById } from '../useCases/findPatienteById'
+import { RegisterRequest } from '../useCases/registerRequest'
 
 export async function registerRequest(request: Request, response: Response) {
-  const { professional, requestType, procedures, date, hour } = request.body
-  const { patienteId } = request.params
-
-  console.log(professional, requestType, procedures, date, hour, patienteId)
+  const { professionalId, requestTypeId, procedureId, date, hour, id } =
+    request.body
 
   if (
-    !professional ||
-    professional === '' ||
-    !requestType ||
-    requestType === '' ||
-    !procedures ||
-    procedures === '' ||
+    !professionalId ||
+    !requestTypeId ||
+    !procedureId ||
     !date ||
     date === '' ||
     !hour ||
     hour === '' ||
-    !patienteId
+    !id
   ) {
     return response.status(400).json({
-      error: !patienteId
+      error: !id
         ? 'Id not passed by parameters!'
         : 'Body is not being passed completely.',
     })
   }
 
-  // const repository = new PrismaPatientesRepository()
-  // const patientesUseCase = new FindPatienteById(repository)
+  const repository = new PrismaPatientesRepository()
+  const patientesUseCase = new RegisterRequest(repository)
 
-  // const patiente = await patientesUseCase.execute(patienteId)
+  const requestSuccess = await patientesUseCase.execute({
+    ...request.body,
+    patienteId: id,
+  })
 
-  return response.status(201).json()
+  return response.status(201).json({ success: requestSuccess ? true : false })
 }

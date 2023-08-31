@@ -1,4 +1,5 @@
 export interface Patiente {
+  id: number
   name: string
   birthDate: string
   cpf: string
@@ -33,9 +34,9 @@ export interface IFormData {
   name: string
   birthDate: string
   cpf: string
-  professional: number
-  requestType: number
-  procedures: number
+  professionalId: number
+  requestTypeId: number
+  procedureId: number
   date: string
   hour: string
 }

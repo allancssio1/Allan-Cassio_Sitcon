@@ -9,7 +9,7 @@ export const routes = Router()
 
 routes.get('/', listPatientes)
 routes.get('/patiente/:patienteId', findPatienteById)
-routes.post('/patiente/:patienteId', registerRequest)
+routes.post('/patiente/register', registerRequest)
 
 routes.get('/professionals', listProfessional)
 
