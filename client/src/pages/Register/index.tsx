@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react'
 import './styles.css'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { api } from '../../server/api'
-import { IFormData, Patiente } from './interfaces'
-import dayjs from 'dayjs'
-import moment from 'moment-timezone'
+import { IFormData, Patiente, Prefessional } from './interfaces'
 import { maskCPF } from '../../utils/maskCPF'
 
 export const FormUser = () => {
   const [patiente, setPatiente] = useState<Patiente>()
+  const [professionals, setProfessionals] = useState<Prefessional[]>()
 
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<IFormData>()
 
@@ -24,22 +24,33 @@ export const FormUser = () => {
   }, [])
 
   const getDataPatiente = async () => {
-    const { data } = await api.get('/1')
+    const { data } = await api.get('/patiente/1')
     const { patiente } = data
 
     const date = new Intl.DateTimeFormat('pt-br').format(
       new Date(patiente.birthDate),
     )
-    console.log('date:', date)
 
     setPatiente({ ...patiente, birthDate: date, cpf: maskCPF(patiente.cpf) })
   }
 
-  const getProfessionalList = async () => {}
+  const getProfessionalList = async () => {
+    const { data } = await api.get('/professionals')
+    const { professionals } = data
+    setProfessionals(professionals)
+  }
+
   const getRequestTypeList = async () => {}
+
   const getProcedures = async () => {}
 
-  const submit = (data: IFormData) => {}
+  const submit = (data: IFormData) => {
+    data = {
+      ...data,
+      ...patiente,
+    }
+    console.log(data)
+  }
 
   return (
     <section>
@@ -101,15 +112,20 @@ export const FormUser = () => {
                 id="professional"
                 {...register('professional', {
                   required: true,
-                  onChange: (e) => {},
                 })}
               >
-                <option value="">Selecione</option>
-                <option value="1">Opção 1</option>
-                <option value="1">Opção 2</option>
-                <option value="1">Opção 3</option>
-                <option value="1">Opção 4</option>
-                <option value="1">Opção 5</option>
+                <option value="" disabled>
+                  Selecione
+                </option>
+                {professionals &&
+                  professionals.length > 0 &&
+                  professionals.map((professional) => {
+                    return (
+                      <option key={professional.id} value={professional.id}>
+                        {professional.name}
+                      </option>
+                    )
+                  })}
               </select>
             </div>
           </div>
@@ -124,9 +140,6 @@ export const FormUser = () => {
                 id="requestType"
                 {...register('requestType', {
                   required: true,
-                  onChange: (e) => {
-                    console.log(e.target.value)
-                  },
                 })}
               >
                 <option value="">Selecione</option>
@@ -147,9 +160,6 @@ export const FormUser = () => {
                 id="procedures"
                 {...register('procedures', {
                   required: true,
-                  onChange: (e) => {
-                    console.log(e.target.value)
-                  },
                 })}
               >
                 <option value="">Selecione</option>
