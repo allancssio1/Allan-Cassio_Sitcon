@@ -4,8 +4,8 @@ import { PatienteRepository } from '../repositories/patientesRepository'
 export class FindPatienteById {
   constructor(private patienteRepository: PatienteRepository) {}
 
-  async execute(id: string): Promise<Patiente | null> {
-    const patiente = await this.patienteRepository.findId(+id)
+  async execute(id: string) {
+    const patiente = await this.patienteRepository.findId(Number(id))
     return patiente
   }
 }

@@ -4,6 +4,12 @@ export interface Patiente {
   cpf: string
 }
 
+export interface Prefessional {
+  id: number
+  name: string
+  status: boolean
+}
+
 export interface IFormData {
   name: string
   birthDate: string
