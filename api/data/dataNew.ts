@@ -147,12 +147,6 @@ const procedimentos = [
     tipo_id: 2,
     status: 'ativo',
   },
-  {
-    id: 6,
-    descricao: 'Triglicerídeos',
-    tipo_id: 2,
-    status: 'ativo',
-  },
 ]
 
 const profissionalAtende = [
@@ -200,7 +194,7 @@ const profissionalAtende = [
   },
   {
     id: 8,
-    procedimento_id: 6,
+    procedimento_id: 5,
     profissional_id: 1,
     status: 'ativo',
   },

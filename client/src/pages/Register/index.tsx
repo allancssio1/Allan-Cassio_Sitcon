@@ -2,15 +2,23 @@ import './styles.css'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { api } from '../../server/api'
-import { IFormData, Patiente, Prefessional, Procedure } from './interfaces'
+import {
+  IFormData,
+  Patiente,
+  Prefessional,
+  Procedure,
+  RequestType,
+} from './interfaces'
 import { maskCPF } from '../../utils/maskCPF'
 
 export const FormUser = () => {
   const [patiente, setPatiente] = useState<Patiente>()
   const [professionals, setProfessionals] = useState<Prefessional[]>()
   const [procedures, setProcedures] = useState<Procedure[]>()
+  const [requestType, setRequestType] = useState<RequestType>()
   const [professionalSelected, setProfessionalSelected] =
     useState<Prefessional>()
+  const [procedureSelected, setProcedureSelected] = useState<Procedure>()
 
   const {
     register,
@@ -21,9 +29,11 @@ export const FormUser = () => {
   useEffect(() => {
     getDataPatiente()
     getProfessionalList()
-    getRequestTypeList()
-    getProcedures()
   }, [])
+
+  useEffect(() => {
+    getRequestTypeList()
+  }, [procedureSelected])
 
   const getDataPatiente = async () => {
     const { data } = await api.get('/patiente/1')
@@ -42,9 +52,17 @@ export const FormUser = () => {
     setProfessionals(professionals)
   }
 
-  const getRequestTypeList = async () => {}
-
-  const getProcedures = async () => {}
+  const getRequestTypeList = async () => {
+    if (procedureSelected) {
+      const { data } = await api.get(
+        `/requestsTypes/${procedureSelected.requestTypeId}`,
+      )
+      if (data) {
+        const { requestType } = data
+        setRequestType(requestType)
+      }
+    }
+  }
 
   const submit = (data: IFormData) => {
     data = {
@@ -159,12 +177,18 @@ export const FormUser = () => {
                   required: true,
                 })}
               >
-                <option value="">Selecione</option>
-                <option value="1">Opção 1</option>
-                <option value="1">Opção 2</option>
-                <option value="1">Opção 3</option>
-                <option value="1">Opção 4</option>
-                <option value="1">Opção 5</option>
+                <option
+                  value=""
+                  disabled
+                  selected={!requestType || (requestType && !requestType.id)}
+                >
+                  Selecione
+                </option>
+                {requestType && (
+                  <option value={requestType.id}>
+                    {requestType.description}
+                  </option>
+                )}
               </select>
             </div>
           </div>
@@ -177,16 +201,24 @@ export const FormUser = () => {
                 id="procedures"
                 {...register('procedures', {
                   required: true,
+                  onChange: (e) => {
+                    const procedure = procedures?.find(
+                      (procedure) => procedure.id === Number(e.target.value),
+                    )
+                    setProcedureSelected(procedure)
+                  },
                 })}
               >
-                <option value="" disabled selected>
+                <option
+                  value=""
+                  disabled
+                  selected={!procedureSelected || !procedureSelected.id}
+                >
                   Selecione
                 </option>
                 {procedures &&
                   procedures?.length > 0 &&
                   procedures.map((procedure: Procedure) => {
-                    console.log(procedure)
-
                     return (
                       <option value={procedure.id}>
                         {procedure.description}
