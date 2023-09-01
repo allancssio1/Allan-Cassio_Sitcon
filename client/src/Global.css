@@ -16,5 +16,6 @@
 
 .screem {
   background-color: var(--secondy-color);
-  height: 100%;
+  height: 100vh;
+  position: relative;
 }

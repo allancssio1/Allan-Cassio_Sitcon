@@ -7,4 +7,6 @@
   background-color: #EDF8FC;
   color: #00629B;
   font-size: 1rem;
+  position: absolute;
+  bottom: 0;
 }
