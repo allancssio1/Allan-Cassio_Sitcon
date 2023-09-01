@@ -11,10 +11,22 @@ export const ListUsers = () => {
   const navegator = useNavigate()
 
   const [patientesList, setPatientesList] = useState<Patiente[]>()
+  const [search, setSearch] = useState<string>('')
 
   useEffect(() => {
     getPatienteList()
   }, [])
+
+  useEffect(() => {
+    if (patientesList && patientesList.length > 0) {
+      const listFiltred = patientesList.filter(
+        (patiente) =>
+          patiente.cpf.replace(/\D/g, '').includes(search) ||
+          patiente.name.toLocaleLowerCase().includes(search),
+      )
+      setPatientesList(listFiltred)
+    }
+  }, [search])
 
   const getPatienteList = async () => {
     const { data } = await api.get('/patiente/list')
@@ -30,7 +42,12 @@ export const ListUsers = () => {
           <i>
             <SearchIcon style={{ color: '#C4C4C4', marginTop: '0.1rem' }} />
           </i>
-          <input type="text" id="searchUser" placeholder="Pesquisar" />
+          <input
+            type="text"
+            id="searchUser"
+            placeholder="Pesquisar"
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
         <section className="tableUsers">
           <div className="headerTable itemsTable">
