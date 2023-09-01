@@ -11,7 +11,7 @@ export const Header = () => {
       </button>
       <button
         className="request-list__button"
-        onClick={() => (window.location.pathname = '/list/request')}
+        onClick={() => (window.location.pathname = '/requests')}
       >
         Lista de Solicitação
       </button>

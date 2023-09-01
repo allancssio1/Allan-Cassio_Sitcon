@@ -84,7 +84,14 @@ export const FormUser = () => {
 
   return (
     <section>
-      <button className="buttonForm buttonBack">voltar</button>
+      <button
+        className="buttonForm buttonBack"
+        onClick={() => {
+          navigate('/')
+        }}
+      >
+        voltar
+      </button>
       <form onSubmit={handleSubmit(submit)}>
         <div className="rowForm">
           <div className="item">
