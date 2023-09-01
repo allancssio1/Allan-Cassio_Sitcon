@@ -6,8 +6,10 @@ import { Header } from './components/Header'
 export const App = () => {
   return (
     <div className="screem">
-      <Header />
-      <Body />
+      <div className="screenSecondary">
+        <Header />
+        <Body />
+      </div>
       <Footer />
     </div>
   )

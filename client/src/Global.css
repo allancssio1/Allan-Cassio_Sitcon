@@ -15,7 +15,13 @@
 }
 
 .screem {
+  display: flex;
+  flex-direction: column;
   background-color: var(--secondy-color);
-  height: 100vh;
-  position: relative;
+  min-height: 100vh;
+}
+
+.screem .screenSecondary {
+  flex: 1;
+
 }
