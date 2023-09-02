@@ -5,27 +5,33 @@ import { useEffect, useState } from 'react'
 import { Patiente } from '../Register/interfaces'
 import { maskCPF } from '../../utils/maskCPF'
 import { useNavigate } from 'react-router-dom'
-// import { Paginate } from '../../components/Pagionation'
+import { Paginate } from '../../components/Pagionation'
 
 export const ListUsers = () => {
   const navegator = useNavigate()
 
   const [patientesList, setPatientesList] = useState<Patiente[]>()
+  const [patientesListDefault, setPatientesListDefault] = useState<Patiente[]>()
   const [search, setSearch] = useState<string>('')
+  const [pagesNumbers, setPagesNumbers] = useState<number>(1)
 
   useEffect(() => {
     getPatienteList()
   }, [])
 
   useEffect(() => {
-    if (patientesList && patientesList.length > 0) {
-      const listFiltred = patientesList.filter(
-        (patiente) =>
-          patiente.cpf.replace(/\D/g, '').includes(search) ||
-          patiente.name.toLocaleLowerCase().includes(search),
-      )
-      setPatientesList(listFiltred)
-    }
+    const listFiltred: Patiente[] | [] =
+      patientesListDefault && patientesListDefault.length >= 0
+        ? patientesListDefault.filter(
+            (patiente) =>
+              (patiente &&
+                patiente.cpf &&
+                patiente.cpf.replace(/\D/g, '').includes(search)) ||
+              (patiente.name &&
+                patiente.name.toLocaleLowerCase().includes(search)),
+          )
+        : []
+    setPatientesList(search ? listFiltred : patientesListDefault)
   }, [search])
 
   const getPatienteList = async () => {
@@ -33,6 +39,7 @@ export const ListUsers = () => {
     const { patientes } = data
 
     setPatientesList(patientes)
+    setPatientesListDefault(patientes)
   }
 
   return (
@@ -88,7 +95,7 @@ export const ListUsers = () => {
           </div>
         </section>
       </div>
-      {/* <Paginate /> */}
+      <Paginate />
     </div>
   )
 }

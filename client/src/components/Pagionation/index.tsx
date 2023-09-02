@@ -1,10 +1,10 @@
 import './styles.css'
 
 // interface PropsPaginate {
-//   totalCount: number
-//   currentPage: number
-//   pageSize: number
-//   siblingCount: number | 1
+//   total: number
+//   limit: number
+//   offset: number
+//   setOffset: () => number
 // }
 
 export const Paginate = () => {
