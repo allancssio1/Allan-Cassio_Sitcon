@@ -1,16 +1,23 @@
 import './styles.css'
 
-// interface PropsPaginate {
-//   total: number
-//   limit: number
-//   offset: number
-//   setOffset: () => number
-// }
+interface PropsPaginate {
+  pages: number
+  currtenPage: number
+  back: () => void
+  next: () => void
+  setPage: (value: number) => void
+}
 
-export const Paginate = () => {
+export const Paginate = ({
+  pages,
+  currtenPage,
+  setPage,
+  back,
+  next,
+}: PropsPaginate) => {
   return (
     <section className="pagination">
-      <div onClick={() => {}}>
+      <button className="buutonNavegate" onClick={back}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="11"
@@ -23,9 +30,22 @@ export const Paginate = () => {
             fill="#C4C4C4"
           />
         </svg>
-      </div>
+      </button>
 
-      <div onClick={() => {}}>
+      {Array.from({ length: pages })
+        .map((_, index) => index + 1)
+        .map((page) => (
+          <button
+            type="button"
+            className={`${page === currtenPage ? 'active' : ''}`}
+            placeholder={`${page}`}
+            onClick={() => setPage(Number(page))}
+          >
+            {page}
+          </button>
+        ))}
+
+      <button className="buutonNavegate" onClick={next}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="11"
@@ -38,7 +58,7 @@ export const Paginate = () => {
             fill="#C4C4C4"
           />
         </svg>
-      </div>
+      </button>
     </section>
   )
 }

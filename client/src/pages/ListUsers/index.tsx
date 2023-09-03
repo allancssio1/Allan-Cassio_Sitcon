@@ -14,6 +14,7 @@ export const ListUsers = () => {
   const [patientesListDefault, setPatientesListDefault] = useState<Patiente[]>()
   const [search, setSearch] = useState<string>('')
   const [pagesNumbers, setPagesNumbers] = useState<number>(1)
+  const [page, setPage] = useState<number>(1)
 
   useEffect(() => {
     getPatienteList()
@@ -34,16 +35,31 @@ export const ListUsers = () => {
     setPatientesList(search ? listFiltred : patientesListDefault)
   }, [search])
 
+  useEffect(() => {
+    const listFiltred = patientesListDefault?.slice((page - 1) * 10)
+    setPatientesList(listFiltred)
+  }, [page])
+
+  const back = () => {
+    if (page > 1) setPage(page - 1)
+  }
+
+  const next = () => {
+    if (page < pagesNumbers) setPage(page + 1)
+  }
+
   const getPatienteList = async () => {
     const { data } = await api.get('/patiente/list')
     const { patientes } = data
 
-    setPatientesList(patientes)
+    setPagesNumbers(Math.ceil(patientes.length / 10))
+
+    setPatientesList(patientes.slice((page - 1) * 10, 10))
     setPatientesListDefault(patientes)
   }
 
   return (
-    <div>
+    <div className="content">
       <div className="searchUsers">
         <div id="containerSearch">
           <i>
@@ -95,7 +111,13 @@ export const ListUsers = () => {
           </div>
         </section>
       </div>
-      <Paginate />
+      <Paginate
+        pages={pagesNumbers}
+        next={next}
+        back={back}
+        currtenPage={page}
+        setPage={setPage}
+      />
     </div>
   )
 }

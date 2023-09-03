@@ -5,11 +5,15 @@ import { Request } from '../Register/interfaces'
 import { maskCPF } from '../../utils/maskCPF'
 import moment from 'moment-timezone'
 import { useNavigate } from 'react-router-dom'
+import { Paginate } from '../../components/Pagionation'
 
 export const ListRequests = () => {
   const navigate = useNavigate()
 
   const [requests, setRequests] = useState<Request[]>()
+  const [requestsDefault, setRequestsDefault] = useState<Request[]>()
+  const [pagesNumbers, setPagesNumbers] = useState<number>(1)
+  const [page, setPage] = useState<number>(1)
 
   useEffect(() => {
     getRequestsList()
@@ -19,7 +23,22 @@ export const ListRequests = () => {
     const { data } = await api.get('/requests')
     const { requests } = data
 
-    setRequests(requests)
+    setPagesNumbers(Math.ceil(requests.length / 10))
+    setRequests(requests.slice((page - 1) * 10, 10))
+    setRequestsDefault(requests)
+  }
+
+  useEffect(() => {
+    const listFiltred = requestsDefault?.slice((page - 1) * 10)
+    setRequests(listFiltred)
+  }, [page])
+
+  const back = () => {
+    if (page > 1) setPage(page - 1)
+  }
+
+  const next = () => {
+    if (page < pagesNumbers) setPage(page + 1)
   }
 
   return (
@@ -73,7 +92,13 @@ export const ListRequests = () => {
           </div>
         </section>
       </div>
-      {/* <Paginate /> */}
+      <Paginate
+        pages={pagesNumbers}
+        next={next}
+        back={back}
+        currtenPage={page}
+        setPage={setPage}
+      />
     </div>
   )
 }
